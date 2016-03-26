@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Podatkovni model</h1>
+Glede na backlog bomo rabili vse spodnje resource
+
+<h2>Non Fhir</h2>
+<ul>
+    <li><strong>User</strong> - ima na sebi najmanj dva podatka: tip fhir resource-a, ID (npr: type=Petient, id=5), da
+        bomo lahko povezavi Userja z Fhir Userju
+    </li>
+    <li><strong>UserCredenials</strong> - username, password in povezava na 'User'</li>
+</ul>
+<h2>Fhir Resources <span style="font-weight: normal">in pomembni atributi</span></h2>
+<ul style="line-height: 2">
+    <li><strong><a href="https://www.hl7.org/fhir/practitioner.html">Practitioner</a></strong>
+        <ul>
+            <li><a
+                    href="https://www.hl7.org/fhir/valueset-practitioner-role.html">pracitioner-role</a> (doctor, nurse)
+            </li>
+            <li><u>name</u> - to je tipa <a href="https://www.hl7.org/fhir/datatypes.html#HumanName">HumanName</a>, kar
+                vključuje family, given, prefix, ...
+            </li>
+            <li><u>telecom</u> - to je tipa <a
+                    href="https://www.hl7.org/fhir/datatypes.html#ContactPoint">ContactPoint</a>,
+                kar vključuje system (phone, email, fax, ..), value
+            </li>
+            <li><u>address</u> - to je tipa <a href="https://www.hl7.org/fhir/datatypes.html#Address">Address</a>,
+                kar vključuje city, state, country, postal, ...
+            </li>
+            <li><u>gender, birthDate</u></li>
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/patient.html">Patient</a></strong> (pomembno predvsem za story #13)
+        <ul>
+            <li><u>name</u> - to je tipa <a href="https://www.hl7.org/fhir/datatypes.html#HumanName">HumanName</a>, kar
+                vključuje family, given, prefix, ...
+            </li>
+            <li><u>telecom</u> - to je tipa <a
+                    href="https://www.hl7.org/fhir/datatypes.html#ContactPoint">ContactPoint</a>,
+                kar vključuje system (phone, email, fax, ..), value
+            </li>
+            <li><u>address</u> - to je tipa <a href="https://www.hl7.org/fhir/datatypes.html#Address">Address</a>,
+                kar vključuje city, state, country, postal, ...
+            </li>
+            <li><u>gender, birthDate</u></li>
+            <li><u>contact</u> - za kontaktno osebo</li>
+            <li><u>link.other</u> - povezava do pacientov, za katere skrbi</li>
+            <li><u>identifier</u> - kamor se bo shranila številka zdravstvenega zavarovanja</li>
+            <li><u>careProvider</u> - seznam njegovih Practitionerjev: osebni zdravnik, medicinske sestre, zobozdravnik
+                (story #14)
+            </li>
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/episodeofcare.html">EpisodeOfCare</a></strong> oz. 'Pregled'
+        <ul>
+            <li><u>patient</u> - id od pacienta, ki je bil soudeležen pri pregledu</li>
+            <li><u>careManager</u> - id od practitionerja, ki je bil soudeležen pri pregledu</li>
+            <li><u>condition</u> - razlog za pregled</li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal datum pregleda (da bomo vedeli ali je planiran ali
+                je v preteklosti)
+            </li>
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/condition.html">Condition</a></strong> oz. 'Bolezen'
+        <ul>
+            <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
+            <li><u>code</u> - koda bolezni</li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila ugotovljena</li>
+            ... ostalo po potrebi
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/allergyintolerance.html">AllergyIntolerance</a></strong> oz.
+        'Alergija'
+        <ul>
+            <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila ugotovljena</li>
+            ... ostalo po potrebi
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/nutritionorder.html">NutritionOrder</a></strong> oz. 'Dieta'
+        <ul>
+            <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila predpisana</li>
+            ... ostalo po potrebi
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/medication.html">Medication</a></strong> oz. 'Zdravila'
+        <ul>
+            <li>na ta resource bomo dali UndeclaredExtension*, ki bo vseboval patientId (po defaultu ga ni, ker je vse
+                skupaj bolj zakomplicirano)
+            </li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bilo predpisano</li>
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/observation.html">Observation</a></strong> oz. 'Meritve vitalnih
+        znakov'
+        <ul>
+            <li><u>subject</u> - id od pacienta, ki se ga tičejo</li>
+            <li><u>code</u> - ki bo povedala, za katero vrsto meritve gre (puls, O2, ...)</li>
+            ... ostalo po potrebi
+        </ul>
+    </li>
+    <br>
+    <li><strong><a href="https://www.hl7.org/fhir/binary.html">Binary</a></strong> oz. 'Članki/navodila' (see story #6)
+        <ul>
+            <li><u>contentType</u></li>
+            <li><u>content</u> - base64Encoded content</li>
+            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo za kateri pregled so ta navodila (see story #17)</li>
+        </ul>
+    </li>
+</ul>
+<hr>
+** note: na vsak resource se lahko da tudi poljuben field, ki ni zaveden v dokumentaciji in se imenuje
+'UndeclaredExtension' (če bomo morali kak resource 'prilagoditi')
+
+</body>
+</html>
