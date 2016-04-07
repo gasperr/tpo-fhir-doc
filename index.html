@@ -5,6 +5,30 @@
     <title></title>
 </head>
 <body>
+<h1>Endpoint:  http://193.2.72.18:8082/fhir/</h1>
+Create & read deluje za vseh 9 spodaj naštetih resource-ov. Raznorazni 'search'-i (po imenu, po ulici bivanja, po tem kdo ti je zdravnik ipd.) se bodo implementirali po potrebi.
+<h3>GET</h3>
+<strong>http://193.2.72.18:8082/fhir/ResourceType/id</strong>, npr: http://193.2.72.18:8082/fhir/Patient/e255bf4f-6242-4479-a006-33fa895036d3
+
+<h3>POST</h3>
+<ul>
+<li><strong>http://193.2.72.18:8082/fhir/ResourceType</strong>, npr: http://193.2.72.18:8082/fhir/Patient</li>
+<li>v body daš nek fhir legit JSON, <strong>brez ID-ja</strong></li>
+<li>v response headerju Content-Location dobiš ID od kreiranega objekta (s tem IDjem lahko torej potem kličeš READ .../Patient/ta-id)</li>
+<a href="http://postimg.org/image/6ceg5f5dp/">(-glej sliko-)</a>  (potrebno bo torej sparsat ven ta ID, ki je med resourceType/ in /_history)
+<br><strong>Ko se kreira Pacient/Practitioner se bo ta ID dal na PHP Userja.</strong>
+</ul>
+
+<h3>Demo podatki trenutno v bazi</h3> (lahko referenca za legit json, le odstranite ID za POSTanje):
+<ul>
+<li>Observation ID = <a href="http://193.2.72.18:8082/fhir/Observation/1f79c5f8-6b9b-4ccb-88d8-69b726f49f51?_format=json" target="_blank">1f79c5f8-6b9b-4ccb-88d8-69b726f49f51</a></li>
+<li>Practitioner ID = <a href="http://193.2.72.18:8082/fhir/Practitioner/211297d8-ecf1-42ef-84df-5d83a49dba28?_format=json" target="_blank">211297d8-ecf1-42ef-84df-5d83a49dba28</a></li>
+<li>Patient ID = <a href="http://193.2.72.18:8082/fhir/Patient/3b4403ec-4db7-452f-a12a-a2905bff611c?_format=json" target="_blank">3b4403ec-4db7-452f-a12a-a2905bff611c</a></li>
+</ul>
+
+<hr>
+
+
 <h1>Podatkovni model</h1>
 Glede na backlog bomo rabili vse spodnje resource
 
