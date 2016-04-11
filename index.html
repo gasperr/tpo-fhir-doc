@@ -25,6 +25,22 @@ Create & read deluje za vseh 9 spodaj naštetih resource-ov. Raznorazni 'search'
 <li>http://193.2.72.18:8082/fhir/Observation?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
 <br><strong>Iskanje doktorjevih pacientov:</strong>
 <li>http://193.2.72.18:8082/fhir/Patient?careprovider._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28</a></small></li>
+
+
+<br><strong>Iskanje pacientovih pregledov (Encounter):</strong>
+<li>http://193.2.72.18:8082/fhir/Encounter?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Encounter?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Encounter?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
+
+<br><strong>Iskanje pacientovih bolezni (Condition):</strong>
+<li>http://193.2.72.18:8082/fhir/Condition?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Condition?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Condition?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
+
+<br><strong>Iskanje pacientovih alrgij (AllergyIntolerance):</strong>
+<li>http://193.2.72.18:8082/fhir/AllergyIntolerance?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/AllergyIntolerance?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/AllergyIntolerance?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
+
+<br><strong>Iskanje pacientovih diet (NutritionOrder):</strong>
+<li>http://193.2.72.18:8082/fhir/NutritionOrder?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/NutritionOrder?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/NutritionOrder?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
+
+<br><strong>Iskanje pacientovih zdravil (MedicationOrder):</strong>
+<li>http://193.2.72.18:8082/fhir/MedicationOrder?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/MedicationOrder?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/MedicationOrder?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
 </ul>
 
 <h3>Demo podatki trenutno v bazi</h3> (lahko referenca za legit json, le odstranite ID za POSTanje):
@@ -90,14 +106,14 @@ Glede na backlog bomo rabili vse spodnje resource
         </ul>
     </li>
     <br>
-    <li><strong><a href="https://www.hl7.org/fhir/episodeofcare.html">EpisodeOfCare</a></strong> oz. 'Pregled'
+    <li><strong><a href="https://www.hl7.org/fhir/encounter.html">Encounter</a></strong> oz. 'Pregled'
         <ul>
             <li><u>patient</u> - id od pacienta, ki je bil soudeležen pri pregledu</li>
-            <li><u>careManager</u> - id od practitionerja, ki je bil soudeležen pri pregledu</li>
+            <li><u>participant.individual</u> - id od practitionerja, ki je bil soudeležen pri pregledu</li>
             <li><u>condition</u> - razlog za pregled</li>
-            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal datum pregleda (da bomo vedeli ali je planiran ali
-                je v preteklosti)
+            <li><u>period</u> - datum pregleda
             </li>
+			ostalo po potrebi
         </ul>
     </li>
     <br>
@@ -105,8 +121,8 @@ Glede na backlog bomo rabili vse spodnje resource
         <ul>
             <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
             <li><u>code</u> - koda bolezni</li>
-            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila ugotovljena</li>
-            ... ostalo po potrebi
+            <li><u>encounter</u> - ID od encounterja, kjer je bila bolezen ugotovljena</li>
+            <li><u>asserter</u> - ID od practitioner-ja (practitioner se lahko dobi tudi na Encounterju)</li>
         </ul>
     </li>
     <br>
@@ -114,25 +130,23 @@ Glede na backlog bomo rabili vse spodnje resource
         'Alergija'
         <ul>
             <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
-            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila ugotovljena</li>
-            ... ostalo po potrebi
+			...
         </ul>
     </li>
     <br>
     <li><strong><a href="https://www.hl7.org/fhir/nutritionorder.html">NutritionOrder</a></strong> oz. 'Dieta'
         <ul>
             <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
-            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bila predpisana</li>
-            ... ostalo po potrebi
+			<li><u>encounter</u> - ID od encounterja, kjer je bila bolezen ugotovljena</li>
         </ul>
     </li>
     <br>
-    <li><strong><a href="https://www.hl7.org/fhir/medication.html">Medication</a></strong> oz. 'Zdravila'
+    <li><strong><a href="https://www.hl7.org/fhir/medicationorder.html">MedicationOrder</a></strong> oz. 'Zdravila'
         <ul>
-            <li>na ta resource bomo dali UndeclaredExtension*, ki bo vseboval patientId (po defaultu ga ni, ker je vse
-                skupaj bolj zakomplicirano)
-            </li>
-            <li>dodali bomo tudi UndeclaredExtension*, ki bo povedal ID do EpisodeOfCare, da bomo vedeli pri katerem pregledu je bilo predpisano</li>
+            <li><u>patient</u> - id od pacienta, ki ima bolezen</li>
+            <li><u>encounter</u> - ID od encounterja</li>
+            <li><u>prescriber</u> - ID od practitioner-ja (practitioner se lahko dobi tudi na Encounterju)</li>
+			...
         </ul>
     </li>
     <br>
