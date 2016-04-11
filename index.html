@@ -19,6 +19,14 @@ Create & read deluje za vseh 9 spodaj naštetih resource-ov. Raznorazni 'search'
 <br><strong>Ko se kreira Pacient/Practitioner se bo ta ID dal na PHP Userja.</strong>
 </ul>
 
+<h3>SEARCH   <small>(vsi search-i vrnejo bundle)</small></h3> 
+<ul>
+<strong>Iskanje pacientovih observation-ov:</strong> 
+<li>http://193.2.72.18:8082/fhir/Observation?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c" target="_blank">http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
+<br><strong>Iskanje doktorjevih pacientov:</strong>
+<li>http://193.2.72.18:8082/fhir/Patient?careprovider._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28" target="_blank">http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28</a></small></li>
+</ul>
+
 <h3>Demo podatki trenutno v bazi</h3> (lahko referenca za legit json, le odstranite ID za POSTanje):
 <ul>
 <li>Observation ID = <a href="http://193.2.72.18:8082/fhir/Observation/1f79c5f8-6b9b-4ccb-88d8-69b726f49f51?_format=json" target="_blank">1f79c5f8-6b9b-4ccb-88d8-69b726f49f51</a></li>
