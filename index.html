@@ -19,13 +19,20 @@ Create & read deluje za vseh 9 spodaj naštetih resource-ov. Raznorazni 'search'
 <br><strong>Ko se kreira Pacient/Practitioner se bo ta ID dal na PHP Userja.</strong>
 </ul>
 
+<h3>PUT (update)</h3> 
+<ul>
+<li>
+<strong>http://193.2.72.18:8082/fhir/ResourceType/ID</strong>, npr: http://193.2.72.18:8082/fhir/Patient/3b4403ec-4db7-452f-a12a-a2905bff611
+</li>
+<li>v body daš posodobljen fhir legit resource kot JSON</li>
+</ul>
+
 <h3>SEARCH   <small>(vsi search-i vrnejo bundle)</small></h3> 
 <ul>
 <strong>Iskanje pacientovih observation-ov:</strong> 
 <li>http://193.2.72.18:8082/fhir/Observation?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Observation?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
 <br><strong>Iskanje doktorjevih pacientov:</strong>
 <li>http://193.2.72.18:8082/fhir/Patient?careprovider._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Patient?careprovider._id=211297d8-ecf1-42ef-84df-5d83a49dba28</a></small></li>
-
 
 <br><strong>Iskanje pacientovih pregledov (Encounter):</strong>
 <li>http://193.2.72.18:8082/fhir/Encounter?patient._id=ID, <small>npr: <a href="http://193.2.72.18:8082/fhir/Encounter?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c&_format=json" target="_blank">http://193.2.72.18:8082/fhir/Encounter?patient._id=3b4403ec-4db7-452f-a12a-a2905bff611c</a></small></li>
